@@ -1,0 +1,185 @@
+<div qv-extension id="{{id}}" class="brilliant-datatable brilliant-extension-container">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/fixedheader/3.1.2/css/fixedHeader.dataTables.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+	
+    <style type="text/css">
+
+	#{{id}} {	
+        border-color: {{layout.brilliantprops.bordercolor}};
+        border-width: {{layout.brilliantprops.borderwidth}}px;
+        border-radius: {{layout.brilliantprops.borderradius}}px;
+        border-style: solid;
+		position:absolute;
+		top:{{layout.brilliantprops.borderwidth}}px;
+		bottom:{{layout.brilliantprops.borderwidth}}px;
+		right:{{layout.brilliantprops.borderwidth}}px;
+		left:{{layout.brilliantprops.borderwidth}}px;
+		overflow:scroll;
+	}
+	
+	table.brilliant-datatable {
+		table-layout: fixed;
+	}
+
+	table.brilliant-datatable thead th
+	{
+		overflow: hidden;
+	}
+
+	.brilliant-disabled-element{
+		pointer-events:none;
+		opacity:0.4;
+	}
+	
+    .shadow {
+        display: none;
+    }
+	
+	table.brilliant-datatable td.brilliant-table-dimension {
+		text-align:left;
+	}
+	
+	table.brilliant-datatable td.brilliant-table-measure {
+		text-align:right;
+	}
+    
+    table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before,
+    table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+        background-color: #b2b2b2;
+    }
+    
+    table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before,
+    table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
+        background-color: #e32538;
+    }
+    
+    table.dataTable.no-footer {
+        border-bottom-width: 1px;
+        border-bottom-style: none;
+        border-bottom-color: #DDD;
+    }
+	
+	table.dataTable.no-footer.fixedHeader-floating {
+        border-bottom-style: none;
+    }
+	
+	table.brilliant-datatable.fixedHeader-floating {
+		position: absolute !important;
+		top: 2px !important;
+	}
+    
+    table.dataTable thead th,
+    table.dataTable thead td {
+        padding: 10px 5px 10px 10px;
+        border-bottom: 1px solid #DDD;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: #DDD;
+    }
+	
+	table.dataTable thead th.total-cell{
+		padding: 10px 18px 10px 10px;
+	}
+	
+	table.brilliant-datatable tr td:first-child {
+    	background-color: #FFF !important;
+	}
+	
+	table.brilliant-datatable tr.brilliant-selected td {
+		background-color: #52CC52 !important;
+	}
+	
+	.brilliant-datatable th.total-cell.link-renderer span {
+    	display: none;
+	}
+
+    .total-cell, .total-header {
+        /*font-weight: bold;*/
+        color: {{layout.brilliantprops.totalcolor}};
+    }
+	
+	.total-row .total-header, td.dimension, .brilliant-datatable-header-dimension {
+		text-align:left;
+	}
+	
+	.total-row .total-cell, td.measure, .brilliant-datatable-header-measure {
+		text-align:right;
+	}
+	
+	.total-row:first-child{
+		text-align:left;
+	}
+    .qv-object-BrilliantDataTable .qv-object-header.thin {
+        display: none;
+    }
+	
+	table.dataTable tbody th, table.dataTable tbody td {
+    	padding: 4px 18px 4px 10px;
+	}
+	
+	table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+		top: 3px;
+		left: 4px;
+		height: 11px;
+		width: 11px;
+		display: block;
+		position: absolute;
+		color: #fff;
+		border: 2px solid #fff;
+		border-radius: 14px;
+		box-shadow: 0 0 3px #444;
+		box-sizing: content-box;
+		text-align: center;
+		font-family: 'Courier New', Courier, monospace;
+		line-height: 12px;
+		content: '+';
+	}
+	
+	table.dataTable thead th.left, table.dataTable tbody td.left{
+		text-align:left !important;
+	}
+	table.dataTable thead th.right, table.dataTable tbody td.right{
+		text-align:right !important;
+	}
+	table.dataTable thead th.center, table.dataTable tbody td.center{
+		text-align:center !important;
+	}
+	.dialog-message {
+		display:none;
+	}
+	.fleft {
+		text-align: left !important;
+		padding: 5px 0px 5px 5px !important;
+	}
+	.fright {
+		text-align: right !important;
+		padding: 5px 20px 5px 0px !important;
+	}
+	#{{id}} td.fright {
+		padding: 5px 5px 5px 0px !important;	
+	}
+	</style>
+    <table ng-class="{stripe: layout.brilliantprops.striped}" class="hover row-border order-column responsive brilliant-datatable" cellspacing="0" width="100%">
+    </table>
+    <table class="shadow">
+        <thead>
+            <tr>
+                <th class="brilliant-datatable-header-dimension" ng-repeat="dim in layout.qHyperCube.qDimensionInfo" ng-bind="dim.qFallbackTitle"/>
+                <th class="brilliant-datatable-header-measure" ng-repeat="mea in layout.qHyperCube.qMeasureInfo" ng-bind="mea.qFallbackTitle" />
+            </tr>            
+            <tr class="total-row" ng-if="layout.brilliantprops.totals">
+                <th class="total-header" ng-repeat="dim in layout.qHyperCube.qDimensionInfo">{{$first ? "Total": ""}}</th>
+                <th class="total-cell" ng-repeat="tot in layout.qHyperCube.qGrandTotalRow"><span>{{tot.qText}}</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in layout.qHyperCube.qDataPages[0].qMatrix" data-qelemnumber="{{row[0].qElemNumber}}" data-hcubeindex="{{$index}}">
+				<td ng-class="($index >= layout.qHyperCube.qDimensionInfo.length) ? 'brilliant-table-measure' : 'brilliant-table-dimension' " ng-repeat="col in row" ng-attr-data-sort="{{(col.qNum != 'NaN') && col.qNum || undefined }}"  ng-bind-html="col.qText"></td>
+            </tr>
+        </tbody>
+    </table>
+	<div id="dialog-{{id}}" class="" title="">
+	</div>
+</div>
+<!--<td ng-class="($index >= layout.qHyperCube.qDimensionInfo.length) ? 'brilliant-table-measure' : 'brilliant-table-dimension' " ng-repeat="col in row" ng-bind-html="getCellText($index, col)" ng-attr-data-sort="{{(col.qNum != 'NaN') && col.qNum || undefined }}">-->
